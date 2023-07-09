@@ -29,7 +29,7 @@
 //   return false;
 // }
 
-function areThereDuplicates() {
+function areThereDuplicates(...args: (string | number)[]) {
   return new Set(arguments).size !== arguments.length;
 }
 
