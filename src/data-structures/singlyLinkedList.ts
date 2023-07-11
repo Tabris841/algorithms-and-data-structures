@@ -1,25 +1,22 @@
 class Node {
-  constructor(val) {
-    this.val = val;
-    this.next = null;
-  }
+  next: Node | null = null;
+
+  constructor(public value: unknown) {}
 }
 
-class SinglyLinkedList {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-    this.length = 0;
-  }
+export class SinglyLinkedList {
+  head: Node | null = null;
+  tail: Node | null = null;
+  length = 0;
 
-  push(val) {
-    const node = new Node(val);
+  push(value: unknown) {
+    const node = new Node(value);
 
     if (!this.head) {
       this.head = node;
       this.tail = node;
     } else {
-      this.tail.next = node;
+      if (this.tail) this.tail.next = node;
       this.tail = node;
     }
 
@@ -36,13 +33,13 @@ class SinglyLinkedList {
     let current = this.head;
     let newTail = current;
 
-    while (current.next) {
+    while (current?.next) {
       newTail = current;
       current = current.next;
     }
 
     this.tail = newTail;
-    this.tail.next = null;
+    if (this.tail) this.tail.next = null;
     this.length--;
 
     if (this.isEmpty()) {
@@ -59,7 +56,7 @@ class SinglyLinkedList {
     }
 
     const currentHead = this.head;
-    this.head = currentHead.next;
+    if (currentHead) this.head = currentHead.next;
     this.length--;
 
     if (this.isEmpty()) {
@@ -69,8 +66,8 @@ class SinglyLinkedList {
     return currentHead;
   }
 
-  unshift(val) {
-    const node = new Node(val);
+  unshift(value: unknown) {
+    const node = new Node(value);
 
     if (this.isEmpty()) {
       this.head = node;
@@ -85,7 +82,7 @@ class SinglyLinkedList {
     return this;
   }
 
-  get(index) {
+  get(index: number) {
     if (index < 0 || index >= this.length) {
       return null;
     }
@@ -94,40 +91,40 @@ class SinglyLinkedList {
     let current = this.head;
 
     while (counter < index) {
-      current = current.next;
+      if (current) current = current.next;
       counter++;
     }
 
     return current;
   }
 
-  set(index, val) {
+  set(index: number, value: unknown) {
     const foundNode = this.get(index);
 
     if (foundNode) {
-      foundNode.val = val;
+      foundNode.value = value;
       return true;
     }
 
     return false;
   }
 
-  insert(index, val) {
+  insert(index: number, value: unknown) {
     if (index < 0 || index >= this.length) return false;
-    if (index === this.length) return !!this.push(val);
-    if (index === 0) return !!this.unshift(val);
+    if (index === this.length) return !!this.push(value);
+    if (index === 0) return !!this.unshift(value);
 
     const prev = this.get(index - 1);
-    const newNode = new Node(val);
+    const newNode = new Node(value);
 
-    newNode.next = prev.next;
-    prev.next = newNode;
+    newNode.next = prev?.next || null;
+    if (prev) prev.next = newNode;
     this.length++;
 
     return true;
   }
 
-  remove(index) {
+  remove(index: number) {
     if (index < 0 || index >= this.length) return;
     if (index === 0) return this.shift();
     if (index === this.length - 1) return this.pop();
@@ -135,7 +132,7 @@ class SinglyLinkedList {
     const prev = this.get(index - 1);
     const removed = this.get(index);
 
-    prev.next = removed.next;
+    if (prev && removed) prev.next = removed.next;
     this.length--;
 
     return removed;
@@ -150,10 +147,10 @@ class SinglyLinkedList {
     let prev = null;
 
     for (let i = 0; i < this.length; i++) {
-      next = node.next;
-      node.next = prev;
+      if (node) next = node.next;
+      if (node) node.next = prev;
       prev = node;
-      node = next;
+      if (next) node = next;
     }
 
     return this;
@@ -164,13 +161,13 @@ class SinglyLinkedList {
   }
 }
 
-const list = new SinglyLinkedList();
+// const list = new SinglyLinkedList();
 
-list.unshift(80);
-list.push(81);
-list.push(82);
-list.push(83);
-console.log(list);
+// list.unshift(80);
+// list.push(81);
+// list.push(82);
+// list.push(83);
+// console.log(list);
 
 // console.log(list.shift());
 // console.log(list.get(1));
@@ -180,6 +177,6 @@ console.log(list);
 // console.log(list.get(2));
 // console.log(list.pop());
 
-list.reverse();
+// list.reverse();
 
-console.log(list);
+// console.log(list);
