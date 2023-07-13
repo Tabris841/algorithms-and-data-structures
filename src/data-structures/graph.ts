@@ -1,4 +1,4 @@
-class Graph {
+export class Graph {
   adjacencyList: Map<string, string[]> = new Map();
 
   addVertex(vertex: string) {
@@ -47,6 +47,7 @@ graph.addVertex('B');
 graph.addVertex('C');
 graph.addVertex('D');
 graph.addVertex('E');
+graph.addVertex('F');
 
 graph.addEdge('A', 'B');
 graph.addEdge('A', 'C');
