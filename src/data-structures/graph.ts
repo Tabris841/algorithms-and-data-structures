@@ -38,6 +38,74 @@ export class Graph {
       );
     }
   }
+
+  depthFirstRecursive(start: string) {
+    const result: string[] = [];
+    const visited: Record<string, boolean> = {};
+
+    const dfs = (vertex: string) => {
+      if (!vertex) return null;
+
+      visited[vertex] = true;
+      result.push(vertex);
+
+      this.adjacencyList.get(vertex)!.forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          return dfs(neighbor);
+        }
+      });
+    };
+
+    dfs(start);
+
+    return result;
+  }
+
+  depthFirstIterative(start: string) {
+    const stack: string[] = [];
+    const result: string[] = [];
+    const visited: Record<string, boolean> = {};
+
+    stack.push(start);
+    visited[start] = true;
+
+    while (stack.length) {
+      const current = stack.pop()!;
+      result.push(current);
+
+      this.adjacencyList.get(current)!.forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      });
+    }
+
+    return result;
+  }
+
+  breadthFirst(start: string) {
+    const queue: string[] = [];
+    const result: string[] = [];
+    const visited: Record<string, boolean> = {};
+
+    queue.push(start);
+    visited[start] = true;
+
+    while (queue.length) {
+      const current = queue.shift()!;
+      result.push(current);
+
+      this.adjacencyList.get(current)!.forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      });
+    }
+
+    return result;
+  }
 }
 
 const graph = new Graph();
@@ -53,9 +121,12 @@ graph.addEdge('A', 'B');
 graph.addEdge('A', 'C');
 graph.addEdge('B', 'D');
 graph.addEdge('C', 'E');
+graph.addEdge('D', 'E');
+graph.addEdge('D', 'F');
+graph.addEdge('E', 'F');
 
 console.log(graph);
 
-graph.removeVertex('A');
-
-console.log(graph);
+console.log(graph.depthFirstRecursive('A'));
+console.log(graph.depthFirstIterative('A'));
+console.log(graph.breadthFirst('A'));

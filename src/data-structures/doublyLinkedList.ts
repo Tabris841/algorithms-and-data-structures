@@ -188,11 +188,11 @@ export class DoublyLinkedList {
   }
 }
 
-// const linkedList = new DoublyLinkedList();
+const linkedList = new DoublyLinkedList();
 
-// linkedList.push(1);
-// linkedList.push(2);
-// linkedList.push(3);
-// linkedList.pop();
+linkedList.push(1);
+linkedList.push(2);
+linkedList.push(3);
+linkedList.pop();
 
-// console.log(linkedList);
+console.log(linkedList);
